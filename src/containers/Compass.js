@@ -1,5 +1,5 @@
 import React from 'react';
-import Compass from '../vendor/compass';
+//import Compass from '../vendor/compass';
 
 class CompassApp extends React.Component {
   constructor(props, context) {
@@ -17,7 +17,7 @@ class CompassApp extends React.Component {
   }
 
   componentDidMount() {
-
+/*
     Compass.noSupport(this.setError).needGPS(function () {
       this.setState({message: 'We need GPS signal. Go outside'});
     }).needMove(() => {
@@ -25,8 +25,8 @@ class CompassApp extends React.Component {
     }).init(() => {
       this.setState({message: ''});
     }).watch(this.setHeading);
+*/
 
-    /*
     // http://stackoverflow.com/questions/16048514/can-i-use-javascript-to-get-the-compass-heading-for-ios-and-android
     if (window.DeviceOrientationEvent) {
       // Listen for the deviceorientation event and handle the raw data
@@ -44,7 +44,7 @@ class CompassApp extends React.Component {
     }else{
       this.setError();
     }
-    */
+
   }
 
   setError() {
@@ -116,7 +116,7 @@ class CompassApp extends React.Component {
         <div id="container">
           <h3>You look towards</h3>
           <h1>{this.state.direction}</h1>
-          <p id='heading'>{Math.round(this.state.heading)}°</p>
+          <p id="heading">{Math.round(this.state.heading)}°</p>
         </div>
       );
     }
