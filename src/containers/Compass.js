@@ -8,6 +8,7 @@ class CompassApp extends React.Component {
     this.state = {
       heading: 0,
       direction: '',
+      message: '',
       error: false
     };
 
@@ -16,10 +17,17 @@ class CompassApp extends React.Component {
   }
 
   componentDidMount() {
-    // eslint-disable-next-line no-undef
-    Compass.noSupport(this.setError);
 
-    // eslint-disable-next-line no-undef
+    Compass.noSupport(this.setError);
+/*
+    Compass.needGPS(function () {
+      this.setState({message: 'We need GPS signal. Go outside'});
+    }).needMove(function () {
+      this.setState({message: 'GPS needs to be calibrated, move forward a bit.'});
+    }).init(function () {
+      this.setState({message: ''});
+    });
+*/
     Compass.watch(this.setHeading);
 
     /*
@@ -48,7 +56,11 @@ class CompassApp extends React.Component {
   }
 
   setHeading(heading) {
-    let direction = 'hm';
+    let direction = 'the unknown';
+    if(window.innerWidth > window.innerHeight) { // Landscape mode
+      heading += 90;
+      heading %= 360;
+    }
     heading += 45/2;
     switch (true) {
       case (-45 <= heading && heading < 0):
@@ -94,15 +106,21 @@ class CompassApp extends React.Component {
         <div id="container">
           <h1>Sorry,</h1>
           <h3>Device not supported</h3>
+          <p>Open page on a mobile phone</p>
+        </div>
+      );
+    }else if(this.state.message !== ''){
+      return (
+        <div id="container">
+          <h3>{this.state.message}</h3>
         </div>
       );
     }else{
       return (
         <div id="container">
           <h3>You look towards</h3>
-          {this.state.error === true && 'Device not supported'}
           <h1>{this.state.direction}</h1>
-          {Math.round(this.state.heading)}°
+          <p id='heading'>{Math.round(this.state.heading)}°</p>
         </div>
       );
     }

@@ -1,15 +1,35 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:500,900');
 
+// https://coolors.co/f18f01-048ba8-2e4057-99c24d-2f2d2e
+
 html {
-  color: red;
   font-family: 'Roboto', sans-serif;
+  background-color: white;
+}
+
+#container {
+  margin-top: 50px;
+  margin-left: 10px;
 }
 
 h1 {
   font-weight: 900;
   font-size: 6em;
+  margin: 10px 0 10px 0;
+  color: #2E4057;
 }
 h3 {
   font-weight: 500;
   font-size: 2em;
+  margin: 10px 0 10px 0;
+  color: #048BA8;
+}
+
+p {
+  color: #2F2D2E;
+}
+
+#heading {
+  position: fixed;
+  bottom: 40px;
 }
