@@ -18,17 +18,13 @@ class CompassApp extends React.Component {
 
   componentDidMount() {
 
-    Compass.noSupport(this.setError);
-/*
-    Compass.needGPS(function () {
+    Compass.noSupport(this.setError).needGPS(function () {
       this.setState({message: 'We need GPS signal. Go outside'});
-    }).needMove(function () {
+    }).needMove(() => {
       this.setState({message: 'GPS needs to be calibrated, move forward a bit.'});
-    }).init(function () {
+    }).init(() => {
       this.setState({message: ''});
-    });
-*/
-    Compass.watch(this.setHeading);
+    }).watch(this.setHeading);
 
     /*
     // http://stackoverflow.com/questions/16048514/can-i-use-javascript-to-get-the-compass-heading-for-ios-and-android
