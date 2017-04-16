@@ -29,7 +29,20 @@ p {
   color: #2F2D2E;
 }
 
+#warning {
+  position: fixed;
+  bottom: 70px;
+  color: firebrick;
+}
+
+
 #heading {
   position: fixed;
   bottom: 40px;
+}
+
+@media all and (orientation:landscape) {
+  #warning {
+    bottom: 10px;
+  }
 }
