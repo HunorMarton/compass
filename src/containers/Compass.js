@@ -48,7 +48,11 @@ class CompassApp extends React.Component {
         }else{
           heading = event.alpha;
         }
-        this.setHeading(heading);
+        if(typeof(heading) === "number") {
+          this.setHeading(heading);
+        }else{
+          this.setError();
+        }
       });
     }else{
       this.setError();
