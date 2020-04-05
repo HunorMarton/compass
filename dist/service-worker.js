@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "compass/precache-manifest.67873d304c147e187c751a1ea17b0ae7.js"
+  "compass/precache-manifest.5ed0188050e7f91845cd3a7c13e1b45c.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "compass"});
