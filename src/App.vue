@@ -6,7 +6,7 @@ export default {
     heading: 0,
     error:
       (!DeviceOrientationEvent || !DeviceOrientationEvent.requestPermission) &&
-      'Device orientation not supported by your device'
+      'Device orientation is not supported by your device'
   }),
   computed: {
     direction() {
