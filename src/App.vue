@@ -1,12 +1,37 @@
 <script>
+function getMobileOperatingSystem() {
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera
+
+  // Windows Phone must come first because its UA also contains "Android"
+  if (/windows phone/i.test(userAgent)) {
+    return 'Windows Phone'
+  }
+
+  if (/android/i.test(userAgent)) {
+    return 'Android'
+  }
+
+  // iOS detection from: http://stackoverflow.com/a/9039885/177710
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    return 'iOS'
+  }
+
+  return 'unknown'
+}
+
+function supported() {
+  if (getMobileOperatingSystem() == 'Windows Phone') return false
+  if (getMobileOperatingSystem() == 'unknown') return false
+  return true
+}
+
 export default {
   name: 'Compass',
   data: () => ({
+    error: !supported() && 'Device orientation not supported by your device',
+    permissionRequired: getMobileOperatingSystem() == 'iOS',
     hasAccess: false,
-    heading: 0,
-    error:
-      (!DeviceOrientationEvent || !DeviceOrientationEvent.requestPermission) &&
-      'Device orientation is not supported by your device'
+    heading: 0
   }),
   computed: {
     direction() {
@@ -23,21 +48,32 @@ export default {
       return 'Ooops'
     }
   },
+  created() {
+    if (!this.permissionRequired) this.listen()
+  },
   methods: {
     async requestPermission() {
       // The call of this function has to be the result of a user action
       const permissionState = await DeviceOrientationEvent.requestPermission()
       if (permissionState == 'granted') {
         this.hasAccess = true
-        window.addEventListener('deviceorientation', this.handleOrientation)
+        this.listen()
       } else {
         this.error = `Access ${permissionState}`
       }
     },
-    handleOrientation(event) {
+    listen() {
+      if ('ondeviceorientationabsolute' in window) {
+        window.addEventListener('deviceorientationabsolute', this.handle)
+      } else if ('ondeviceorientation' in window) {
+        window.addEventListener('deviceorientation', this.handle)
+      } else {
+        this.error = 'Device orientation not supported by your device'
+      }
+    },
+    handle(event) {
       let heading
 
-      // A PDF explaining this: https://www.w3.org/2008/geolocation/wiki/images/e/e0/Device_Orientation_%27alpha%27_Calibration-_Implementation_Status_and_Challenges.pdf
       if (event.webkitCompassHeading) {
         heading = event.webkitCompassHeading
       } else if (event.absolute) {
@@ -62,8 +98,8 @@ export default {
   div(v-if="error")
     h1 Sorry,
     h3 {{ error }}
-  div(v-else-if="!hasAccess")
-    p In order to use the compass you need to give access to your device's device orientation
+  div(v-else-if="permissionRequired && !hasAccess")
+    p In order to use the compass you need to give access to your device's orientation
     button(@click="requestPermission") Give access
   div(v-else)
     h3 You look towards
