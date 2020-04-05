@@ -88,6 +88,10 @@ export default {
         heading %= 360
       }
 
+      if (getMobileOperatingSystem() == 'Android') {
+        heading = 360 - heading
+      }
+
       this.heading = heading
     }
   }
