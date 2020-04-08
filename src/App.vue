@@ -31,7 +31,7 @@ export default {
     error: !supported() && 'Device orientation not supported by your device',
     permissionRequired: getMobileOperatingSystem() == 'iOS',
     hasAccess: false,
-    heading: 0
+    heading: 0,
   }),
   computed: {
     direction() {
@@ -46,7 +46,7 @@ export default {
       if (this.heading < 360 - 22.5) return 'North-West'
       if (this.heading < 360) return 'North'
       return 'Ooops'
-    }
+    },
   },
   created() {
     if (!this.permissionRequired) this.listen()
@@ -93,8 +93,8 @@ export default {
       }
 
       this.heading = heading
-    }
-  }
+    },
+  },
 }
 </script>
 
